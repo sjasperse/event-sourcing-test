@@ -7,7 +7,7 @@ using EventSourcingTest.Events;
 
 namespace EventSourcingTest
 {
-    public class EventStore
+    public class InMemoryEventStore
     {
         private readonly Dictionary<Guid, List<Event>> _eventsByAggId = new Dictionary<Guid, List<Event>>();
 

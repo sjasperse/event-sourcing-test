@@ -42,7 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Domain.cs" />
+    <Compile Include="Models\Thing.cs" />
+    <Compile Include="Models\BaseDomainModel.cs" />
     <Compile Include="Events.cs" />
     <Compile Include="EventStore.cs" />
     <Compile Include="_Program.cs" />

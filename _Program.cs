@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using EventSourcingTest.Domain;
+using EventSourcingTest.Models;
 
 namespace EventSourcingTest
 {
@@ -11,15 +11,15 @@ namespace EventSourcingTest
     {
         private static void Main(string[] args)
         {
-            var eventStore = new EventStore();
-            var thing = Thing.CreateNew("Initial name", null);
+            var eventStore = new InMemoryEventStore();
+
+            var id = Guid.NewGuid();
+            var thing = Thing.CreateNew(id, "Initial name", null);
 
             thing.ChangeDescription("Now I want a description");
             thing.ChangeDescription("I didn't like that last description");
             thing.ChangeDescription("Eh. I like this one better");
             thing.ChangeName("Better name");
-
-            var id = thing.Id;
 
             eventStore.Store(thing.Id, thing.Metadata.NewEvents);
             thing = Thing.LoadFromEventStream(eventStore.GetEventStream(id));
