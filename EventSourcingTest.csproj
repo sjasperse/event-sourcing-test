@@ -45,7 +45,7 @@
     <Compile Include="Models\Thing.cs" />
     <Compile Include="Models\BaseDomainModel.cs" />
     <Compile Include="Events.cs" />
-    <Compile Include="EventStore.cs" />
+    <Compile Include="InMemoryEventStore.cs" />
     <Compile Include="_Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
