@@ -8,8 +8,8 @@ using EventSourcingTest.Events;
 
 namespace EventSourcingTest.Models
 {
-    public abstract class BaseDomainModel<T>
-        where T : BaseDomainModel<T>
+    public abstract class BaseDomainModel<TModel>
+        where TModel : BaseDomainModel<TModel>
     {
         protected BaseDomainModel(IEnumerable<Event> events, bool eventsAreNew)
         {
@@ -44,7 +44,7 @@ namespace EventSourcingTest.Models
             var eventAppliers = this.GetEventAppliers();
             if (eventAppliers.ContainsKey(@event.GetType()))
             {
-                eventAppliers[@event.GetType()]((T)this, @event);
+                eventAppliers[@event.GetType()]((TModel)this, @event);
 
                 this.metadata.Version = @event.Version;
             }
@@ -62,12 +62,12 @@ namespace EventSourcingTest.Models
         private DomainModelMetadata metadata;
 
         // TODO: Should be cached, but this isn't a performance POC
-        private Dictionary<Type, Action<T, Event>> GetEventAppliers()
+        private Dictionary<Type, Action<TModel, Event>> GetEventAppliers()
         {
-            var methods = new Dictionary<Type, Action<T, Event>>();
+            var methods = new Dictionary<Type, Action<TModel, Event>>();
 
             var methodFlags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.DeclaredOnly;
-            foreach (var method in typeof(T).GetMethods(methodFlags))
+            foreach (var method in typeof(TModel).GetMethods(methodFlags))
             {
                 var parameters = method.GetParameters();
                 if (method.Name == "Apply"
